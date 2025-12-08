@@ -2,6 +2,7 @@
 
 import numpy as np
 import os
+import json
 
 '''
 Входные данные: матрица выигрышей NxM
@@ -13,33 +14,35 @@ precision = 2
 
 # Выполнение метода (input -> results)
 def evaluate(filename_read, filename_write, method, _precision, *args) -> None:
+    # читаем матрицу выигрышей
     path = os.path.join('input', filename_read)
-    data_input = np.loadtxt(path)
+    with open(path, 'r') as f:
+        d = json.load(f)
+        data_input = np.array(d['M'])
 
     # -> measures_s, best_idx
     res = method(data_input, *args)
-
-    # Нужен единый тип данных для вывода
-    _format = f"%.{_precision}f"
-    str_vec1 = [_format % x for x in res[0]]
-    str_vec2 = [str(x) for x in res[1]]
-
-    result_h = np.vstack((str_vec1, str_vec2), dtype=str)
+    result_h = {'measures_s': np.round(res[0], _precision).tolist(), 'best_idx': res[1].tolist()}
 
     path = os.path.join('results', filename_write)
-    np.savetxt(path, result_h, fmt="%s")
+    with open(path, 'w') as f:
+        json.dump(result_h, f, indent=4)
 
 
-# Тестирование метода (input, validate -> test_result)
+# Тестирование метода (input, validate -> message | None)
 def validate(filename_read, filename_check, method, _precision, *args) -> str | None:
+    # читаем матрицу и результаты
     path = os.path.join('input', filename_read)
-    data_input = np.loadtxt(path)
-    path = os.path.join('validate', filename_check)
-    data_check = np.loadtxt(path)
+    with open(path, 'r') as f:
+        d = json.load(f)
+        data_input = np.array(d['M'])
 
-    vec1, vec2 = data_check
-    vec1 = np.asarray(vec1, dtype=np.float32)
-    vec2 = np.asarray(vec2, dtype=np.int16)
+    path = os.path.join('validate', filename_check)
+    with open(path, 'r') as f:
+        data_check = json.load(f)
+
+    vec1 = np.asarray(data_check['measures_s'], dtype=np.float32)
+    vec2 = np.asarray(data_check['best_idx'], dtype=np.int16)
 
     # -> measures_s, best_idx
     res = method(data_input, *args)

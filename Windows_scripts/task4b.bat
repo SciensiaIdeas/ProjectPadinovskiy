@@ -1,10 +1,10 @@
 cd ..
 
-python module11.py task4b.txt pessimism -v task4b_p.txt || goto :error
-python module11.py task4b.txt optimism -v task4b_o.txt || goto :error
-python module11.py task4b.txt hurwich -v task4b_h.txt -u 0.5 || goto :error
-python module11.py task4b.txt savage -v task4b_s.txt || goto :error
-python module11.py task4b.txt bernulli_laplace -v task4b_bl.txt || goto :error
+python module11.py task4b.json pessimism -v task4b_p.json || goto :error
+python module11.py task4b.json optimism -v task4b_o.json || goto :error
+python module11.py task4b.json hurwich -v task4b_h.json -u 0.5 || goto :error
+python module11.py task4b.json savage -v task4b_s.json || goto :error
+python module11.py task4b.json bernulli_laplace -v task4b_bl.json || goto :error
 
 goto :exit
 

@@ -1,6 +1,6 @@
 cd ..
 
-python module11.py task7.txt maximum_likelihood -v task7.txt || goto :error
+python module11.py task7.json maximum_likelihood -v task7.json || goto :error
 goto :exit
 
 :error

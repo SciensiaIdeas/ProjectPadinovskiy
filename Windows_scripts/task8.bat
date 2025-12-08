@@ -1,8 +1,8 @@
 cd ..
 
-python module11.py task8.txt pessimism -v task8_p.txt || goto :error
-python module11.py task8.txt savage -v task8_s.txt || goto :error
-python module11.py task8.txt bernulli_laplace -v task8_bl.txt || goto :error
+python module11.py task8.json pessimism -v task8_p.json || goto :error
+python module11.py task8.json savage -v task8_s.json || goto :error
+python module11.py task8.json bernulli_laplace -v task8_bl.json || goto :error
 
 goto :exit
 
