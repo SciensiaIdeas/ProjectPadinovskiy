@@ -1,0 +1,47 @@
+{
+    "results": {
+        "MasteringChemistry": 0.4,
+        "Gradescope": 0.0,
+        "ETS_e-rater": 0.0,
+        "EvoGrader": 0.3,
+        "Moodle_plugin": 0.3,
+        "CRAT": 0.0,
+        "Google_Work": 0.0,
+        "StarCHEM": 0.8
+    },
+    "best_variant": "StarCHEM",
+    "sorted_results": [
+        [
+            "StarCHEM",
+            0.8
+        ],
+        [
+            "MasteringChemistry",
+            0.4
+        ],
+        [
+            "EvoGrader",
+            0.3
+        ],
+        [
+            "Moodle_plugin",
+            0.3
+        ],
+        [
+            "Gradescope",
+            0.0
+        ],
+        [
+            "ETS_e-rater",
+            0.0
+        ],
+        [
+            "CRAT",
+            0.0
+        ],
+        [
+            "Google_Work",
+            0.0
+        ]
+    ]
+}

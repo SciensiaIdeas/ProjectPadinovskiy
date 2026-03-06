@@ -1,0 +1,16 @@
+{
+    "method": "bernoulli_laplace",
+    "optimal_alternative": 1,
+    "expected_values": [
+        4.14,
+        3.5,
+        2.67
+    ],
+    "n_alternatives": 3,
+    "n_states": 4,
+    "groups": [
+        1,
+        3,
+        4
+    ]
+}

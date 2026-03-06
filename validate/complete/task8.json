@@ -1,0 +1,68 @@
+{
+    "pessimism": {
+        "measures": [
+            0.0,
+            0.0
+        ],
+        "ranks": [
+            1,
+            2
+        ],
+        "best_variant": 1
+    },
+    "optimism": {
+        "measures": [
+            2.0,
+            1.0
+        ],
+        "ranks": [
+            2,
+            1
+        ],
+        "best_variant": 2
+    },
+    "hurwich": {
+        "measures": [
+            0.5,
+            0.25
+        ],
+        "ranks": [
+            2,
+            1
+        ],
+        "best_variant": 2
+    },
+    "savage": {
+        "measures": [
+            0.25,
+            2.0
+        ],
+        "ranks": [
+            2,
+            1
+        ],
+        "best_variant": 2
+    },
+    "bernulli_laplace": {
+        "measures": [
+            1.0,
+            0.67
+        ],
+        "ranks": [
+            2,
+            1
+        ],
+        "best_variant": 2
+    },
+    "maximum_likelihood": {
+        "measures": [
+            1.0,
+            0.0
+        ],
+        "ranks": [
+            2,
+            1
+        ],
+        "best_variant": 2
+    }
+}
