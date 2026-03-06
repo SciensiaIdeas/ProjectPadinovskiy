@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "DM-Stoch-2025"
+version = "0.1.0"
+dependencies = ["typer", "numpy", "scipy", "pydantic", "numpydantic"]
+
+[project.scripts]
+dfs = "cli:app"
+
+[tool.setuptools]
+py-modules = ["core", "cli", "algs_complete_uncertainty", "algs_stochastic_uncertainty", "algs_partial_uncertainty", "schemas"]

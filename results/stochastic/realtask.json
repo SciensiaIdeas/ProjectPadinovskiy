@@ -1,0 +1,22 @@
+{
+    "results": {
+        "bonds": 1.0,
+        "stocks": 0.65,
+        "deposit": 0.65
+    },
+    "best_variant": "bonds",
+    "sorted_results": [
+        [
+            "bonds",
+            1.0
+        ],
+        [
+            "stocks",
+            0.65
+        ],
+        [
+            "deposit",
+            0.65
+        ]
+    ]
+}

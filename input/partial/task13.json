@@ -1,0 +1,7 @@
+{
+    "criteria_matrix": [
+        [[2,4], [4,2]],
+        [[1,4], [4,4]]
+    ],
+    "utility_expression": "log2(y1)+sqrt(y2)"
+}
