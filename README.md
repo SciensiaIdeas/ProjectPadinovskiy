@@ -41,7 +41,7 @@ pip install -e .
 ```bash
 dfs evaluate <модуль> <входной_файл> <файл_результата> <метод> [доп. аргументы] (-p [точность])
 ```
-По умолчанию, точность p=2. Примеры смотрите далее.
+По умолчанию, точность p=2. Примеры находятся в скрипте **`test_all.sh`**.
 
 ### Режим проверки (validate)
 
@@ -49,7 +49,7 @@ dfs evaluate <модуль> <входной_файл> <файл_результа
 dfs validate <модуль> <входной_файл> <эталонный_файл> <метод> [доп. аргументы]
 ```
 
-Эталонные файлы лежат в каталоге **`validate/`**. Команда завершится успехом, если результат метода совпадает с эталоном (с учётом точности для вещественных полей). Примеры находятся в скрипте bash проекта.
+Эталонные файлы лежат в каталоге **`validate/`**. Команда завершится успехом, если результат метода совпадает с эталоном (с учётом точности для вещественных полей). Примеры находятся в скрипте **`eval_economarket.sh`**.
 
 ### Автодополнение (Linux terminal)
 
@@ -78,14 +78,14 @@ chmod +x test_all.sh
 
 ## Тестирование методов на задачах из статьи
 
-Следующие команды позволяют решить задачу "realtask.json" из статьи [2] классическими методами полной неопределенности, а также ее многокритериальную версию с уровнями притязаний стохастической неопределенности:
+Следующие команды позволяют решить задачу из статьи [2] (economarket.json) классическими методами полной неопределенности и методами попарного доминирования частичной неопределенности, а также её модифицированную многокритериальную версию с уровнями притязаний стохастической неопределенности и методами Вальда и Бернулли-Лапласа частичной неопределенности (economarket_modified.json):
 
 ```bash
-dfs evaluate complete input/complete/realtask.json results/complete/realtask.json general_solution 0.3
-dfs evaluate stochastic input/stochastic/realtask.json results/stochastic/realtask.json multi_criteria_problem
+chmod +x eval_economarket.sh
+./eval_economarket.sh
 ```
 
-После выполнения в директории results результаты полностью согласованы с результатами из статьи [2].
+После выполнения в директории **`results/complete`** видим результаты, которые полностью согласуются с результатами из статьи [2]. Также были получены новые результаты, которые можно наблюдать в **`results/stochastic`** и **`results/partial`**.
 
 ---
 
@@ -187,9 +187,42 @@ result = solution(data, pessimism)
 
 ---
 
+## Входные и выходные данные (Pydantic-структуры из `schemas.py`)
+
+Все форматы входных и выходных JSON заданы в модуле **`schemas.py`** с помощью Pydantic-моделей. Ниже перечислены структуры по типам задач.
+
+### Стохастическая неопределённость
+
+| Модель | Назначение | Поля |
+|--------|------------|------|
+| **Problem10_3Input** | Вход для задачи 10.3 («Русский сыр») | `demand` — список объёмов спроса; `demand_probs` — вероятности; `cost`, `price` — себестоимость и цена; `n_values` — варианты производства |
+| **Problem10_3Result** | Результат `problem_10_3` | `payoff_table` — матрица прибыли; `results`, `ranked` — стратегии с \(m\), \(s^-\); `dominance_m_s`, `fsd_dominance`, `ssd_dominance`; `best_candidates`, `dominance_type`; `cdf_table` |
+| **MultiCriteriaInput** | Вход многокритериальной задачи с притязаниями | `alternatives`, `states_of_nature`, `state_probabilities`; `criteria_values` — словарь «альтернатива → матрица значений по состояниям»; `aspiration_levels`; опционально `minimize_criteria`, `criteria_descriptions` |
+| **MultiCriteriaResult** | Результат `multi_criteria_problem` | `results` — вероятность успеха по альтернативам; `best_variant`; `sorted_results` — список пар (альтернатива, вероятность) |
+
+### Полная неопределённость
+
+| Модель | Назначение | Поля |
+|--------|------------|------|
+| **CompleteUncertaintyInput** | Вход для всех критериев полной неопр. | `M` — матрица выигрышей (список списков чисел), размер «альтернативы × состояния» |
+| **CompleteUncertaintyResult** | Результат одного критерия (Вальд, Гурвиц, …) | `measures` — вектор мер по стратегиям (от лучшей к худшей по предпочтению см. ranks); `ranks` — ранги (от лучшей к худшей, нумерация начинается с 1); `best_variant` — номер лучшей альтернативы (ranks[0]) |
+| **AllCompleteMethodsResult** | Результат `general_solution` | Шесть полей: `pessimism`, `optimism`, `hurwich`, `savage`, `bernulli_laplace`, `maximum_likelihood`, каждое — `CompleteUncertaintyResult` |
+
+### Частичная неопределённость
+
+| Модель | Назначение | Поля |
+|--------|------------|------|
+| **PartialUncertaintyInput** | Вход для Fishburn, Kirkwood, Вальда, Бернулли–Лапласа | `criteria_matrix` — 2D (альтернативы × состояния) или 3D (× критерии); опционально `utility_expression` — строка функции полезности (y1, y2, …) |
+| **WaldResult** | Результат `wald_criterion` | `optimal_alternative`; `min_values` — минимальные ожидания по вершинам; `n_alternatives`, `n_states`, `groups` |
+| **BernoulliLaplaceResult** | Результат `bernoulli_laplace_criterion` | `optimal_alternative`; `expected_values`; `n_alternatives`, `n_states`, `groups` |
+
+Для попарного доминирования (**fishburn**, **kirkwood**) выход — тот же **CompleteUncertaintyResult** (меры = счёт доминирований, ранги, лучшая альтернатива).
+
+---
+
 ## Входные и тестовые данные
 
-- **Входные данные:** каталоги `input/complete/`, `input/partial/`, `input/stochastic/` (форматы описаны в `schemas.py`).
+- **Входные данные:** каталоги `input/complete/`, `input/partial/`, `input/stochastic/` (форматы соответствуют Pydantic-моделям выше).
 - **Эталоны для проверки:** каталог `validate/` (соответствующие подкаталоги и имена файлов).
 - **Выходные данные:** каталог `results/` (при запуске `evaluate`).
 

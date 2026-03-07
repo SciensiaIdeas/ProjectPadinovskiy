@@ -1,0 +1,8 @@
+{
+    "method": "wald",
+    "optimal_alternative": 1,
+    "min_values": [7.5, 6.75, 7.0],
+    "n_alternatives": 3,
+    "n_states": 4,
+    "groups": [1, 4]
+}
